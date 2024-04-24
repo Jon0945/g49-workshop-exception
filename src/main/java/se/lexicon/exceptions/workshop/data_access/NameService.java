@@ -5,6 +5,7 @@ import java.util.Random;
 
 import se.lexicon.exceptions.workshop.domain.Gender;
 import se.lexicon.exceptions.workshop.domain.Person;
+import se.lexicon.exceptions.workshop.exception.DuplicateNameException;
 import se.lexicon.exceptions.workshop.fileIO.CSVReader_Writer;
 
 public class NameService {
@@ -61,11 +62,18 @@ public class NameService {
 	     * DuplicateNameException.
 	     * @param name
 	     */
-	    public void addFemaleFirstName(String name){
-	    	femaleFirstNames.add(name);
-	    	CSVReader_Writer.saveFemaleNames(femaleFirstNames);
-	    		
-	    }
+	    public void addFemaleFirstName(String name) throws DuplicateNameException {
+
+			for (String str : femaleFirstNames) {
+				if (str.equalsIgnoreCase(name)) {
+					throw new DuplicateNameException("Name already exists");
+				}
+			}
+			femaleFirstNames.add(name);
+			CSVReader_Writer.saveFemaleNames(femaleFirstNames);
+
+		}
+
 
 	    /**
 	     * Here you need to check if List<String> maleFirstNames already contains the name
@@ -73,7 +81,12 @@ public class NameService {
 	     * DuplicateNameException.
 	     * @param name
 	     */
-	    public void addMaleFirstName(String name){
+	    public void addMaleFirstName(String name) throws DuplicateNameException{
+			for(String str : maleFirstNames) {
+				if(str.equalsIgnoreCase(name)) {
+					throw new DuplicateNameException("Name already exists");
+				}
+			}
 	    	maleFirstNames.add(name);
 	        CSVReader_Writer.saveMaleNames(maleFirstNames);
 	    }
@@ -84,7 +97,12 @@ public class NameService {
 	     * DuplicateNameException.
 	     * @param lastName
 	     */
-	    public void addLastName(String lastName){
+	    public void addLastName(String lastName) throws DuplicateNameException {
+			for(String str : lastNames) {
+				if(str.equalsIgnoreCase(lastName)) {
+					throw new DuplicateNameException("Name already exists");
+				}
+			}
 	    	lastNames.add(lastName);
 	        CSVReader_Writer.saveLastNames(lastNames);
 	    }
